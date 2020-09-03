@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp
+  namespace: nodeapp
+spec:
+  selector:
+    matchLabels:
+      app: nodeapp
+  template:
+    metadata:
+      labels:
+        app: nodeapp
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: agentpool
+                operator: In
+                values:
+                - canp
+      containers:
+      - name: nodeapp
+        image: seanmckdemo.azurecr.io/node-hpa-cosmos:0.4.4
+        #image: seanmckdemo.azurecr.io/mvc-hpa:0.2
+        env:
+          - name: COSMOS_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: cosmos-config
+                key: hostname
+          - name: COSMOS_AUTH_KEY
+            valueFrom:
+              secretKeyRef:
+                name: cosmos-key
+                key: cosmos-key.txt
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - name: http
+          containerPort: 3000
+        - name: metrics
+          containerPort: 3001

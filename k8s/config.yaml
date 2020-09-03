@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cosmos-config
+  namespace: nodeapp
+data:
+  hostname: https://igniteautoscaledemo.documents.azure.com:443

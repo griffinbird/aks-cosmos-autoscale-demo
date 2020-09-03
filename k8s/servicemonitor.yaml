@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nodeapp-monitor
+  namespace: prom
+  labels:
+    app: nodeapp-monitor    
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: nodeapp
+  endpoints:
+  - interval: 15s
+    path: /metrics
+    port: metrics
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+  namespaceSelector:
+    matchNames:
+    - nodeapp
