@@ -41,7 +41,7 @@ const cosmosClient = new CosmosClient({
   key: config.authKey,
   connectionPolicy: 
     { 
-      RetryOptions: 
+      retryOptions: 
       {
         maxRetryAttemptCount: 0,
         maxWaitInSeconds: 0
