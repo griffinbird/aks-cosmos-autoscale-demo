@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: seanmckdemo.azurecr.io
+        username: ${{ secrets.acr_seanmckdemo_username }}
+        password: ${{ secrets.acr_seanmckdemo_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/src" -f  "src/Dockerfile" -t seanmckdemo.azurecr.io/playground2:${{ github.sha }}
+        docker push seanmckdemo.azurecr.io/playground2:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_playground2_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep playground2b502 | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace playground2b502`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: playground2b502
+        container-registry-url: seanmckdemo.azurecr.io
+        container-registry-username: ${{ secrets.acr_seanmckdemo_username }}
+        container-registry-password: ${{ secrets.acr_seanmckdemo_password }}
+        secret-name: playground2dockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: playground2b502
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+        images: |
+          seanmckdemo.azurecr.io/playground2:${{ github.sha }}
+        imagepullsecrets: |
+          playground2dockerauth
