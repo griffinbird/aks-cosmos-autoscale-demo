@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "playground2-08f3"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "playground2-08f3"
+  template:
+    metadata:
+      labels:
+        app: "playground2-08f3"
+    spec:
+      containers:
+        - name: "playground2-08f3"
+          image: "seanmckdemo.azurecr.io/playground2"
+          ports:
+          - containerPort: 3000
