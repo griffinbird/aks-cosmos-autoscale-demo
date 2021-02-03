@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "aadpi-9fce"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "aadpi-9fce"
+  template:
+    metadata:
+      labels:
+        app: "aadpi-9fce"
+    spec:
+      containers:
+        - name: "aadpi-9fce"
+          image: "seanmckdemo.azurecr.io/aadpi"
+          ports:
+          - containerPort: 3000
