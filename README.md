@@ -216,9 +216,23 @@ Browse to: https://DNSNAME.LOCATION.cloudapp.azure.com
 
 The TLS certificate should be valid in your browser.
 
-### Generating Load for the application
+### Generating Load for the application and monitoring
 ```sh
 hey -z 15m http://aksscaledemo.griffinbird.com
+```
+Get HPA started:
+```sh
+kubectl apply -f hpa.yaml
+```
+Monitor what is happening:
+```sh 
+kubectl get nodes -l agentpool=canp
+kubectl describe hpa -n nodeapp nodeapp
+kubectl get pods -n nodeapp
+```
+In another bash prompt:
+```sh
+kubectl port-forward service/prometheus-operator-grafana 8080:80 -n prometheus-operator
 ```
 
 ### Troubleshooting
