@@ -234,6 +234,15 @@ In another bash prompt:
 ```sh
 kubectl port-forward service/prometheus-operator-grafana 8080:80 -n prometheus-operator
 ```
+### Configure Grafana Dashboard
+```sh
+#TODO
+```
+- Go to localhost:8080
+- Enter user/pass
+- Upload grafan.json
+- Load dashboard
+- 
 
 ### Troubleshooting
 
