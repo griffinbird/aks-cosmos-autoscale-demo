@@ -4,4 +4,4 @@ metadata:
   name: cosmos-config
   namespace: nodeapp
 data:
-  hostname: https://igniteautoscaledemo.documents.azure.com:443
+  hostname: https://griffinbird.documents.azure.com:443

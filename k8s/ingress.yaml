@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - nodeapp.aksscaledemo.seanmck.dev
+    - aksscalingdemo.griffinbird.com
     secretName: tls-secret
   rules:
-  - host: nodeapp.aksscaledemo.seanmck.dev
+  - host: aksscalingdemo.griffinbird.com
     http:
       paths:
       - backend:

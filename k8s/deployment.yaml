@@ -24,19 +24,22 @@ spec:
                 - canp
       containers:
       - name: nodeapp
-        image: seanmckdemo.azurecr.io/node-hpa-cosmos:0.4.4
-        #image: seanmckdemo.azurecr.io/mvc-hpa:0.2
+        image: bennyau.azurecr.io/node-hpa-cosmos:0.4.4
         env:
+          # - name: COSMOS_HOST
+          #   valueFrom:
+          #     configMapKeyRef:
+          #       name: cosmos-config
+          #       key: hostname
+          # - name: COSMOS_AUTH_KEY
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: cosmos-key
+          #       key: cosmos-key.txt
           - name: COSMOS_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: cosmos-config
-                key: hostname
+            value: "https://griffinbird.documents.azure.com:443"
           - name: COSMOS_AUTH_KEY
-            valueFrom:
-              secretKeyRef:
-                name: cosmos-key
-                key: cosmos-key.txt
+            value: INSERT_KEY
         resources:
           requests:
             memory: "512Mi"
