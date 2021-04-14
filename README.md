@@ -5,6 +5,7 @@ Demo uses:
 - AKS
 - Nginx
 - Cosmos DB
+- Hey, for loadtesting [https://github.com/rakyll/hey]
 
 Assumptions:
 - This demo assumes that you have created a DNS zone for the ingress controller and that you have a working Cosmos DB account setup using the SQL (Core) API.
@@ -214,6 +215,11 @@ kubectl get all -n nodeapp
 Browse to: https://DNSNAME.LOCATION.cloudapp.azure.com
 
 The TLS certificate should be valid in your browser.
+
+### Generating Load for the application
+```sh
+hey -z 15m http://aksscaledemo.griffinbird.com
+```
 
 ### Troubleshooting
 
